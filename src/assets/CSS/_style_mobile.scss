@@ -1,0 +1,47 @@
+@media screen and (max-width: 500px){
+    #title{
+        font-size: 13vmin !important;
+    }
+    .search-container{
+        width: 75vmin !important;
+
+        #search-box{
+            font-size: 5vmin !important;
+            padding: 2vmin 1vmin 2vmin 10vmin !important;
+
+
+            &::placeholder{
+                font-size: 3.5vmin;
+                color: #5f6368;
+            }
+        }
+
+        img{
+            transform: translate(1.5vmin, -2.25vmin) !important;
+            width: 4.5vmin !important;
+        }
+
+
+        .submit-group{
+            margin-top: 5vmin !important;
+            input[type="submit"]{
+                font-size: 4.3vmin !important;
+            }
+        }
+    }
+
+    .card-container{
+        .image-container{
+            width: 10vmin !important;
+            img{
+                width: 6vmin !important;
+            }
+        }
+
+        .text-container{
+            .score{
+                font-size: 4.5vmin !important;
+            }
+        }
+    }
+}
