@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "ava": "^5.1.0",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^8.0.1",
     "postcss": "^8.4.18",
