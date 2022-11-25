@@ -8,6 +8,31 @@
     </head>
 
     <body>
+    <div class="wrapper">
+        <div class="title" id="title">LifeScores</div>
+        <div class="search-container">
+            <form id="form">
 
+                <div class="input-group">
+                    <input type="search" name="search-box" id="search-box" placeholder="Inserisci il nome di una città">
+                    <img src="../src/assets/IMG/search-logo.svg" alt="Search logo">
+                </div>
+
+                <div class="submit-group">
+                    <input type="submit" name="submit" id="submit" value="Cerca">
+                    <input type="submit" name="submit-random" id="submit-random" value="Cerca random">
+                </div>
+            </form>
+        </div>
+
+
+        <div class="result-container" id="paragraph">
+            <div class="summary" id="summary"></div>
+            <div class="cards" id="cards"></div>
+        </div>
+
+
+        <div class="error-container" id="errors"></div>
+    </div>
     </body>
 </html>
