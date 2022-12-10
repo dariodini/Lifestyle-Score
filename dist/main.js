@@ -9,6 +9,83 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/app.JS":
+/*!********************!*\
+  !*** ./src/app.JS ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _assets_CSS_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/CSS/style.css */ \"./src/assets/CSS/style.css\");\n/* harmony import */ var _assets_JS_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/JS/index.js */ \"./src/assets/JS/index.js\");\n\n\n\n\n//# sourceURL=webpack://javascript-advanced/./src/app.JS?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/errors.js":
+/*!*********************************!*\
+  !*** ./src/assets/JS/errors.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"clearErrors\": () => (/* binding */ clearErrors),\n/* harmony export */   \"showError\": () => (/* binding */ showError)\n/* harmony export */ });\n/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./result */ \"./src/assets/JS/result.js\");\n//Variable needed to allow the correct execution\n\nconst errorsContainer = document.getElementById('errors');\nfunction showError(error, city = null) {\n  clearErrors();\n  let elemError = createError(error, city);\n  errorsContainer.append(elemError);\n  restoreParameters();\n}\nfunction clearErrors() {\n  errorsContainer.innerHTML = '';\n}\nfunction restoreParameters() {\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.innerHTML = 'LifeScores';\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.style.backgroundImage = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.cards.innerHTML = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.summary.innerHTML = '';\n}\nfunction createError(error, city) {\n  let elemError = document.createElement('span');\n  let message;\n  switch (error) {\n    case 'isMissing':\n      message = \"INSERISCI IL NOME DI UNA CITTA'\";\n      break;\n    case 'notExist':\n      message = \"LA CITTA' <strong> \" + city + \" </strong> NON E' DISPONIBILE\";\n      break;\n    default:\n      message = \"C'E' STATO UN ERRORE\";\n      break;\n  }\n  elemError.innerHTML = message;\n  return elemError;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/errors.js?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/getCity.js":
+/*!**********************************!*\
+  !*** ./src/assets/JS/getCity.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getCity\": () => (/* binding */ getCity)\n/* harmony export */ });\n/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ \"./src/assets/JS/index.js\");\n/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors */ \"./src/assets/JS/errors.js\");\n// Method needed to validate the city name\n\n\n// Method needed to show errors\n\nconst cityField = document.getElementById('search-box');\nasync function getCity() {\n  let cityName = cityField.value;\n  if (cityName === '') {\n    (0,_errors__WEBPACK_IMPORTED_MODULE_1__.showError)('isMissing');\n  } else {\n    let cityTrans = await translateCity(cityName);\n    cityName = (0,_index__WEBPACK_IMPORTED_MODULE_0__.validateCity)(cityTrans);\n    return cityName;\n  }\n}\nasync function translateCity(city) {\n  let url = \"https://translate.googleapis.com/translate_a/single?client=gtx&sl=it&tl=en&dt=t&q=\" + encodeURI(city);\n  const response = await fetch(url);\n  const jsonResponse = await response.json();\n  const cityTrans = jsonResponse[0][0][0];\n  return cityTrans;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/getCity.js?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/handleData.js":
+/*!*************************************!*\
+  !*** ./src/assets/JS/handleData.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getData\": () => (/* binding */ getData)\n/* harmony export */ });\n/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./result */ \"./src/assets/JS/result.js\");\n/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors */ \"./src/assets/JS/errors.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n\nasync function getData(city) {\n  (0,_errors__WEBPACK_IMPORTED_MODULE_1__.clearErrors)();\n  let responseScore = await fetch(\"https://api.teleport.org/api/urban_areas/slug:\" + city + \"/scores/\");\n  if (responseScore.ok) {\n    let textResponseScore = await responseScore.json();\n    let responseImage = await fetch(\"https://api.teleport.org/api/urban_areas/slug:\" + city + \"/images/\");\n    let textResponseImage = await responseImage.json();\n    return handleData(city, textResponseScore, textResponseImage);\n  } else {\n    (0,_errors__WEBPACK_IMPORTED_MODULE_1__.showError)('notExist', city);\n  }\n}\nfunction handleData(city, textResponseScore, textResponseImage) {\n  _result__WEBPACK_IMPORTED_MODULE_0__.cards.innerHTML = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.innerHTML = city[0].toUpperCase() + city.slice(1);\n  textResponseScore.categories.forEach(elem => {\n    //Nome e punteggio dell'elemento\n    let elemName = elem['name'];\n    let elemScore = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.round)(elem['score_out_of_10'], 1);\n\n    //Creo il nome per l'immagine della card\n    let imgName = elemName.toLowerCase();\n    imgName = imgName.replaceAll(' ', '-');\n\n    //Creo l'elemento img\n    let image = document.createElement('img');\n    image.setAttribute('src', \"./../src/assets/IMG/Logos/\" + imgName + \".png\");\n    let card = (0,_result__WEBPACK_IMPORTED_MODULE_0__.createCard)(image, elemName, elemScore);\n    _result__WEBPACK_IMPORTED_MODULE_0__.cards.append(card);\n  });\n  (0,_result__WEBPACK_IMPORTED_MODULE_0__.writeText)(textResponseScore, textResponseImage);\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/handleData.js?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/index.js":
+/*!********************************!*\
+  !*** ./src/assets/JS/index.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"validateCity\": () => (/* binding */ validateCity)\n/* harmony export */ });\n/* harmony import */ var _randomCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./randomCity */ \"./src/assets/JS/randomCity.js\");\n/* harmony import */ var _getCity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getCity */ \"./src/assets/JS/getCity.js\");\n/* harmony import */ var _handleData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handleData */ \"./src/assets/JS/handleData.js\");\n// Method needed when click 'Cerca random'\n\n\n// Method needed when click 'Cerca'\n\n\n// Handle data\n\n\n// Create the function to choose a random element inside a list\nArray.prototype.random = function () {\n  return this[Math.floor(Math.random() * this.length)];\n};\nconst form = document.getElementById('form');\nform.addEventListener('submit', e => {\n  e.preventDefault();\n  let buttonPressed = e.submitter.id;\n  buttonPressed === 'submit' ? showResult() : showResult(true);\n});\nasync function showResult(random = null) {\n  let city;\n  if (!random) {\n    city = await (0,_getCity__WEBPACK_IMPORTED_MODULE_1__.getCity)();\n  } else {\n    city = await (0,_randomCity__WEBPACK_IMPORTED_MODULE_0__.generateRandomCity)();\n  }\n  if (city) (0,_handleData__WEBPACK_IMPORTED_MODULE_2__.getData)(city);\n}\n\n// General method\nfunction validateCity(city) {\n  return city.toLowerCase().replaceAll(' ', '-').replaceAll('.', '').replaceAll(',', '');\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/index.js?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/randomCity.js":
+/*!*************************************!*\
+  !*** ./src/assets/JS/randomCity.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"generateRandomCity\": () => (/* binding */ generateRandomCity),\n/* harmony export */   \"getAllCities\": () => (/* binding */ getAllCities)\n/* harmony export */ });\n/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ \"./src/assets/JS/index.js\");\n// Method needed to validate the city name\n\nasync function generateRandomCity() {\n  let cities = await getAllCities();\n  let randomCity = cities.random();\n  document.getElementById('search-box').value = randomCity;\n  title.innerHTML = randomCity[0].toUpperCase() + randomCity.slice(1);\n  randomCity = (0,_index__WEBPACK_IMPORTED_MODULE_0__.validateCity)(randomCity);\n  return randomCity;\n}\nasync function getAllCities() {\n  let response = await fetch(\"https://api.teleport.org/api/urban_areas/\");\n  let jsonCities = await response.json();\n  jsonCities = await jsonCities['_links']['ua:item'];\n  let cities = [];\n  jsonCities.forEach(elem => {\n    cities.push(elem['name']);\n  });\n  return cities;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/randomCity.js?");
+
+/***/ }),
+
+/***/ "./src/assets/JS/result.js":
+/*!*********************************!*\
+  !*** ./src/assets/JS/result.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"cards\": () => (/* binding */ cards),\n/* harmony export */   \"createCard\": () => (/* binding */ createCard),\n/* harmony export */   \"summary\": () => (/* binding */ summary),\n/* harmony export */   \"title\": () => (/* binding */ title),\n/* harmony export */   \"writeText\": () => (/* binding */ writeText)\n/* harmony export */ });\nconst summary = document.getElementById('summary');\nconst title = document.getElementById('title');\nconst cards = document.getElementById('cards');\nfunction writeText(textResponseScore, textResponseImage) {\n  summary.innerText = '';\n  let summaryTitle = document.createElement('h1');\n  summaryTitle.innerText = 'Summary';\n  summary.append(summaryTitle);\n  let summ = textResponseScore.summary;\n  summary.innerHTML += summ;\n  summary.style.textAlign = 'justify';\n  let cityImage = JSON.stringify(textResponseImage.photos[0].image.web);\n  title.style.backgroundImage = 'url(' + cityImage + ')';\n}\nfunction createCard(img, elemName, elemScore) {\n  //Crea contenitore esterno della Card\n  let cardContainer = document.createElement('div');\n  cardContainer.classList.add(\"card-container\");\n\n  //Crea contenitore per il logo dell'elemento\n  let imageContainer = document.createElement('div');\n  imageContainer.classList.add(\"image-container\");\n  imageContainer.append(img);\n\n  //Crea il contenitore per i testi\n  let textContainer = document.createElement('div');\n  textContainer.classList.add(\"text-container\");\n\n  //Crea titolo\n  let titleCard = document.createElement('span');\n  titleCard.innerText = elemName;\n  titleCard.classList.add(\"title-card\");\n\n  //Crea punteggio\n  let scoreCard = document.createElement('span');\n  scoreCard.innerText = elemScore;\n  scoreCard.classList.add(\"score\");\n  textContainer.append(titleCard, scoreCard);\n  cardContainer.append(imageContainer, textContainer);\n  return cardContainer;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/result.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/assets/CSS/style.css":
 /*!************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/assets/CSS/style.css ***!
@@ -137,83 +214,6 @@ eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj
 
 "use strict";
 eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\n\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://javascript-advanced/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
-
-/***/ }),
-
-/***/ "./src/app.JS":
-/*!********************!*\
-  !*** ./src/app.JS ***!
-  \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _assets_CSS_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/CSS/style.css */ \"./src/assets/CSS/style.css\");\n/* harmony import */ var _assets_JS_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./assets/JS/index.js */ \"./src/assets/JS/index.js\");\n/* harmony import */ var _assets_JS_randomCity_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./assets/JS/randomCity.js */ \"./src/assets/JS/randomCity.js\");\n\n\n\n\n\n//# sourceURL=webpack://javascript-advanced/./src/app.JS?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/errors.js":
-/*!*********************************!*\
-  !*** ./src/assets/JS/errors.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"clearErrors\": () => (/* binding */ clearErrors),\n/* harmony export */   \"showError\": () => (/* binding */ showError)\n/* harmony export */ });\n/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./result */ \"./src/assets/JS/result.js\");\n//Variable needed to allow the correct execution\n\nconst errorsContainer = document.getElementById('errors');\nfunction showError(error, city = null) {\n  clearErrors();\n  let elemError = createError(error, city);\n  errorsContainer.append(elemError);\n  restoreParameters();\n}\nfunction clearErrors() {\n  errorsContainer.innerHTML = '';\n}\n\nfunction restoreParameters() {\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.innerHTML = 'LifeScores';\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.style.backgroundImage = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.cards.innerHTML = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.summary.innerHTML = '';\n}\n\nfunction createError(error, city) {\n  let elemError = document.createElement('span');\n  let message;\n\n  switch (error) {\n    case 'isMissing':\n      message = \"INSERISCI IL NOME DI UNA CITTA'\";\n      break;\n\n    case 'notExist':\n      message = \"LA CITTA' <strong> \" + city + \" </strong> NON E' DISPONIBILE\";\n      break;\n\n    default:\n      message = \"C'E' STATO UN ERRORE\";\n      break;\n  }\n\n  elemError.innerHTML = message;\n  return elemError;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/errors.js?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/getCity.js":
-/*!**********************************!*\
-  !*** ./src/assets/JS/getCity.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getCity\": () => (/* binding */ getCity)\n/* harmony export */ });\n/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ \"./src/assets/JS/index.js\");\n/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors */ \"./src/assets/JS/errors.js\");\n// Method needed to validate the city name\n // Method needed to show errors\n\n\nconst cityField = document.getElementById('search-box');\nasync function getCity() {\n  let cityName = cityField.value;\n\n  if (cityName === '') {\n    (0,_errors__WEBPACK_IMPORTED_MODULE_1__.showError)('isMissing');\n  } else {\n    let cityTrans = await translateCity(cityName);\n    cityName = (0,_index__WEBPACK_IMPORTED_MODULE_0__.validateCity)(cityTrans);\n    return cityName;\n  }\n}\n\nasync function translateCity(city) {\n  let url = \"https://translate.googleapis.com/translate_a/single?client=gtx&sl=it&tl=en&dt=t&q=\" + encodeURI(city);\n  const response = await fetch(url);\n  const jsonResponse = await response.json();\n  const cityTrans = jsonResponse[0][0][0];\n  return cityTrans;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/getCity.js?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/handleData.js":
-/*!*************************************!*\
-  !*** ./src/assets/JS/handleData.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getData\": () => (/* binding */ getData)\n/* harmony export */ });\n/* harmony import */ var _result__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./result */ \"./src/assets/JS/result.js\");\n/* harmony import */ var _errors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./errors */ \"./src/assets/JS/errors.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ \"./node_modules/lodash/lodash.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\n\nasync function getData(city) {\n  (0,_errors__WEBPACK_IMPORTED_MODULE_1__.clearErrors)();\n  let responseScore = await fetch(\"https://api.teleport.org/api/urban_areas/slug:\" + city + \"/scores/\");\n\n  if (responseScore.ok) {\n    let textResponseScore = await responseScore.json();\n    let responseImage = await fetch(\"https://api.teleport.org/api/urban_areas/slug:\" + city + \"/images/\");\n    let textResponseImage = await responseImage.json();\n    return handleData(city, textResponseScore, textResponseImage);\n  } else {\n    (0,_errors__WEBPACK_IMPORTED_MODULE_1__.showError)('notExist', city);\n  }\n}\n\nfunction handleData(city, textResponseScore, textResponseImage) {\n  _result__WEBPACK_IMPORTED_MODULE_0__.cards.innerHTML = '';\n  _result__WEBPACK_IMPORTED_MODULE_0__.title.innerHTML = city[0].toUpperCase() + city.slice(1);\n  textResponseScore.categories.forEach(elem => {\n    //Nome e punteggio dell'elemento\n    let elemName = elem['name'];\n    let elemScore = (0,lodash__WEBPACK_IMPORTED_MODULE_2__.round)(elem['score_out_of_10'], 1); //Creo il nome per l'immagine della card\n\n    let imgName = elemName.toLowerCase();\n    imgName = imgName.replaceAll(' ', '-'); //Creo l'elemento img\n\n    let image = document.createElement('img');\n    image.setAttribute('src', \"./../src/assets/IMG/Logos/\" + imgName + \".png\");\n    let card = (0,_result__WEBPACK_IMPORTED_MODULE_0__.createCard)(image, elemName, elemScore);\n    _result__WEBPACK_IMPORTED_MODULE_0__.cards.append(card);\n  });\n  (0,_result__WEBPACK_IMPORTED_MODULE_0__.writeText)(textResponseScore, textResponseImage);\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/handleData.js?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/index.js":
-/*!********************************!*\
-  !*** ./src/assets/JS/index.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"validateCity\": () => (/* binding */ validateCity)\n/* harmony export */ });\n/* harmony import */ var _randomCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./randomCity */ \"./src/assets/JS/randomCity.js\");\n/* harmony import */ var _getCity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getCity */ \"./src/assets/JS/getCity.js\");\n/* harmony import */ var _handleData__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handleData */ \"./src/assets/JS/handleData.js\");\n// Method needed when click 'Cerca random'\n // Method needed when click 'Cerca'\n\n // Handle data\n\n // Create the function to choose a random element inside a list\n\nArray.prototype.random = function () {\n  return this[Math.floor(Math.random() * this.length)];\n};\n\nconst form = document.getElementById('form');\nform.addEventListener('submit', e => {\n  e.preventDefault();\n  let buttonPressed = e.submitter.id;\n  buttonPressed === 'submit' ? showResult() : showResult(true);\n});\n\nasync function showResult(random = null) {\n  let city;\n\n  if (!random) {\n    city = await (0,_getCity__WEBPACK_IMPORTED_MODULE_1__.getCity)();\n  } else {\n    city = await (0,_randomCity__WEBPACK_IMPORTED_MODULE_0__.generateRandomCity)();\n  }\n\n  if (city) (0,_handleData__WEBPACK_IMPORTED_MODULE_2__.getData)(city);\n} // General method\n\n\nfunction validateCity(city) {\n  return city.toLowerCase().replaceAll(' ', '-').replaceAll('.', '').replaceAll(',', '');\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/index.js?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/randomCity.js":
-/*!*************************************!*\
-  !*** ./src/assets/JS/randomCity.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"generateRandomCity\": () => (/* binding */ generateRandomCity),\n/* harmony export */   \"getAllCities\": () => (/* binding */ getAllCities)\n/* harmony export */ });\n/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index */ \"./src/assets/JS/index.js\");\n// Method needed to validate the city name\n\nasync function generateRandomCity() {\n  let cities = await getAllCities();\n  let randomCity = cities.random();\n  document.getElementById('search-box').value = randomCity;\n  title.innerHTML = randomCity[0].toUpperCase() + randomCity.slice(1);\n  randomCity = (0,_index__WEBPACK_IMPORTED_MODULE_0__.validateCity)(randomCity);\n  return randomCity;\n}\nasync function getAllCities() {\n  let response = await fetch(\"https://api.teleport.org/api/urban_areas/\");\n  let jsonCities = await response.json();\n  jsonCities = await jsonCities['_links']['ua:item'];\n  let cities = [];\n  jsonCities.forEach(elem => {\n    cities.push(elem['name']);\n  });\n  return cities;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/randomCity.js?");
-
-/***/ }),
-
-/***/ "./src/assets/JS/result.js":
-/*!*********************************!*\
-  !*** ./src/assets/JS/result.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"cards\": () => (/* binding */ cards),\n/* harmony export */   \"createCard\": () => (/* binding */ createCard),\n/* harmony export */   \"summary\": () => (/* binding */ summary),\n/* harmony export */   \"title\": () => (/* binding */ title),\n/* harmony export */   \"writeText\": () => (/* binding */ writeText)\n/* harmony export */ });\nconst summary = document.getElementById('summary');\nconst title = document.getElementById('title');\nconst cards = document.getElementById('cards');\nfunction writeText(textResponseScore, textResponseImage) {\n  summary.innerText = '';\n  let summaryTitle = document.createElement('h1');\n  summaryTitle.innerText = 'Summary';\n  summary.append(summaryTitle);\n  let summ = textResponseScore.summary;\n  summary.innerHTML += summ;\n  summary.style.textAlign = 'justify';\n  let cityImage = JSON.stringify(textResponseImage.photos[0].image.web);\n  title.style.backgroundImage = 'url(' + cityImage + ')';\n}\nfunction createCard(img, elemName, elemScore) {\n  //Crea contenitore esterno della Card\n  let cardContainer = document.createElement('div');\n  cardContainer.classList.add(\"card-container\"); //Crea contenitore per il logo dell'elemento\n\n  let imageContainer = document.createElement('div');\n  imageContainer.classList.add(\"image-container\");\n  imageContainer.append(img); //Crea il contenitore per i testi\n\n  let textContainer = document.createElement('div');\n  textContainer.classList.add(\"text-container\"); //Crea titolo\n\n  let titleCard = document.createElement('span');\n  titleCard.innerText = elemName;\n  titleCard.classList.add(\"title-card\"); //Crea punteggio\n\n  let scoreCard = document.createElement('span');\n  scoreCard.innerText = elemScore;\n  scoreCard.classList.add(\"score\");\n  textContainer.append(titleCard, scoreCard);\n  cardContainer.append(imageContainer, textContainer);\n  return cardContainer;\n}\n\n//# sourceURL=webpack://javascript-advanced/./src/assets/JS/result.js?");
 
 /***/ }),
 
